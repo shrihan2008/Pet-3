@@ -1,6 +1,6 @@
 //Create variables here
 var foodStock1,foodObj,lastFed, database,readState,changeState,bedroom_img,garden_img,washroom_img
-var gamestate="hungry"
+var gameState
 
 function preload()
 {
@@ -11,7 +11,7 @@ function preload()
   garden_img=loadImage("images/Garden.png")
   bedroom_img=loadImage("images/Living Room.png")
   washroom_img=loadImage("images/Wash Room.png")
-  lazy=loadImage("images/Lazy.png")
+ 
 }
 
 function setup() {
@@ -51,25 +51,43 @@ function setup() {
 function draw() {  
   background(0,0,83)
   
-
-  if(gamestate!="Hungry"){
+  if(gameState==="hungry"){
+    feed.show();
+    feed1.show();
+    dog2.addImage(dog);
+  }
+  else if(gameState==="not hungry"){
     feed.hide()
     feed1.hide()
-    dog2.remove()
+    dog2.remove()    
   }
-  else{
-    feed.show()
-    feed1.show()
-    dog2.addImage(lazy)
-  }
-  drawSprites();
   //add styles here
 
   textSize(15);
 
   foodObj = new Food(foodStock1, lastFed, bottleimage);
 
-  foodObj.display();
+  currentTime=hour()
+
+  if(currentTime==(lastFed+1)){
+    update("Playing")
+    foodObj.garden()
+  }
+
+  else if(currentTime==(lastFed+2)){
+    update("Sleeping")
+    foodObj.bedroom()
+  }
+
+  else if(currentTime>(lastFed+2) && currentTime<=(lastFed+4) ){
+    update("Bathing")
+    foodObj.washroom()
+  }
+  else{
+    update("Hungry")
+    foodObj.display();
+  }
+ 
   if(foodObj.lastFed>12){
     text("Last Feed:"+foodObj.lastFed%12+" PM",400,30)
   }
@@ -84,6 +102,9 @@ function draw() {
   }
   // textColor("gray");
   text("Remaining Stock="+""+foodObj.foodStock,200,30)
+
+  drawSprites();
+
 }
 
 function readStock(data){  
@@ -95,8 +116,11 @@ function readLastFed(data){
 }
 
 function feedDog(){
+  
   dog2.addImage(dog_happy);
-  dog_happy.resize(100,100)
+  dog_happy.resize(100,100);
+ // dog_happy.resize(100,100)
+
   if (foodObj.getFoodStock() > 1)
   {
     foodObj.updateFoodStock(foodObj.getFoodStock()-1)
@@ -115,7 +139,7 @@ function addFoods(){
   )}
   
 
-  function changeState(state){
+  function update(state){
     database.ref('/').update({
       gameState:state   
     })
