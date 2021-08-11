@@ -7,10 +7,10 @@ function preload()
 	//load images here
   dog=loadImage("images/dogImg.png")
   dog_happy=loadImage("images/dogImg1.png")
-  bottleimage=loadImage("images/Milk.png")
+  bottleimage=loadImage("images/milk.png")
   garden_img=loadImage("images/Garden.png")
-  bedroom_img=loadImage("images/Living Room.png")
-  washroom_img=loadImage("images/Wash Room.png")
+  bedroom_img=loadImage("images/LivingRoom.png")
+  washroom_img=loadImage("images/WashRoom.png")
  
 }
 
@@ -51,16 +51,7 @@ function setup() {
 function draw() {  
   background(0,0,83)
   
-  if(gameState==="hungry"){
-    feed.show();
-    feed1.show();
-    dog2.addImage(dog);
-  }
-  else if(gameState==="not hungry"){
-    feed.hide()
-    feed1.hide()
-    dog2.remove()    
-  }
+
   //add styles here
 
   textSize(15);
@@ -69,12 +60,13 @@ function draw() {
 
   currentTime=hour()
 
-  if(currentTime==(lastFed+1)){
+ console.log(currentTime + "-" + lastFed);
+  if(currentTime===(lastFed+1)){
     update("Playing")
     foodObj.garden()
   }
 
-  else if(currentTime==(lastFed+2)){
+  else if(currentTime===(lastFed+2)){
     update("Sleeping")
     foodObj.bedroom()
   }
@@ -86,7 +78,31 @@ function draw() {
   else{
     update("Hungry")
     foodObj.display();
+    dog2.display();
   }
+
+  //console.log(gameState);
+  if(gameState==="Hungry"){
+    feed.show();
+    feed1.show();
+    dog2.addImage(dog);
+  }
+  else if(gameState==="Playing"){
+    feed.hide()
+    feed1.hide()
+    dog2.remove()    
+  }
+  else if(gameState==="Sleeping"){
+    feed.hide()
+    feed1.hide()
+    dog2.remove()    
+  }
+  else if(gameState==="Bathing"){
+    feed.hide()
+    feed1.hide()
+    dog2.remove()    
+  }
+
  
   if(foodObj.lastFed>12){
     text("Last Feed:"+foodObj.lastFed%12+" PM",400,30)
