@@ -20,14 +20,8 @@ class Food{
         return this.lastFed;
     }
 
-
     updateFoodStock(newStock){
         this.foodStock = newStock;
-
-    }
-
-    deductFood(){
-
     }
 
     bedroom(){
@@ -42,9 +36,7 @@ class Food{
         background(washroom_img,550,500)
     }
 
-    rest(){
-        background(lazy_img,550,500)
-    }
+   
 
     display(){
         var x=50,y=400;
