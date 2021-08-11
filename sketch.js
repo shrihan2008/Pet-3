@@ -63,47 +63,36 @@ function draw() {
  console.log(currentTime + "-" + lastFed);
   if(currentTime===(lastFed+1)){
     update("Playing")
-    foodObj.garden()
+    foodObj.garden();
+    feed.hide()
+    feed1.hide()
+    dog2.visible = true;    
   }
 
   else if(currentTime===(lastFed+2)){
-    update("Sleeping")
-    foodObj.bedroom()
+    update("Sleeping");
+    foodObj.bedroom();
+    feed.hide();
+    feed1.hide();
+    dog2.visible = false;   
   }
 
   else if(currentTime>(lastFed+2) && currentTime<=(lastFed+4) ){
-    update("Bathing")
-    foodObj.washroom()
+    update("Bathing");
+    foodObj.washroom();
+    feed.hide();
+    feed1.hide();
+    dog2.visible= false;  
   }
   else{
-    update("Hungry")
-    foodObj.display();
-    dog2.display();
-  }
-
-  //console.log(gameState);
-  if(gameState==="Hungry"){
+    update("Hungry")    
     feed.show();
     feed1.show();
+    foodObj.display();
+    dog2.visible = true;
     dog2.addImage(dog);
   }
-  else if(gameState==="Playing"){
-    feed.hide()
-    feed1.hide()
-    dog2.remove()    
-  }
-  else if(gameState==="Sleeping"){
-    feed.hide()
-    feed1.hide()
-    dog2.remove()    
-  }
-  else if(gameState==="Bathing"){
-    feed.hide()
-    feed1.hide()
-    dog2.remove()    
-  }
 
- 
   if(foodObj.lastFed>12){
     text("Last Feed:"+foodObj.lastFed%12+" PM",400,30)
   }
